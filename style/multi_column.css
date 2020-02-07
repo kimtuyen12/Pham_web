@@ -1,0 +1,44 @@
+
+.row {  /* acts like a 'row' to hold columns that add up to 98-100% wide (can be a bit less, but not more 
+        to prevent wrapping) */
+    box-sizing: border-box;  /* width of element includes padding (it's not added extra) */ 
+    width: 100%;
+    padding: 2ex 2ex;  /* 1st is top/bottom, 2nd is left/right */
+    margin-bottom: 2ex;  /* the space between sections */
+    
+    background-color: #a1caf1; /* this is lighter than the body's turqoise color */
+    /* background-color: rgb(160, 200, 180); /* space between containers = turqoise color of the body */
+}
+
+.column {
+    float: left;
+    box-sizing: border-box;  /* width of element includes padding (it's not added extra) */ 
+    padding: 1ex 1ex; /* 1st is top/bottom, 2nd is left/right */
+}
+
+.column img { /* images will fill their container */
+    width:100%;
+    border-radius: 8px;
+    box-shadow: 5px 5px 5px grey;
+}
+
+/* add as many more of these different width styles as you need */
+.column25 {
+    width: 25%;
+}
+.column33 {
+    width: 33%;
+}
+.column50 {
+    width: 50%;
+}
+.column66 {
+    width: 66%;
+}
+.column75 {
+    width: 75%;
+}
+
+.stopFloat { /* prevents elements below stopFloat from floating up above the stopFloat */
+    clear: both;
+}

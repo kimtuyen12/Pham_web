@@ -1,0 +1,72 @@
+[
+    {
+        "name": "Temple University",
+        "state": "PA",
+        "image": "<img src='pics/universities/temple.jpg'>",
+        "ranking":"104",
+        "tuition": "15000",
+        "webUseremail": "tuh39709@temple.edu",
+        "webUserMajor": "Computer Science",
+        "webUserComment":"Like environment here"
+    },
+    {
+        "name": "Harvard University",
+        "state": "MA",
+        "image": "<img src='pics/universities/harvard.jpg'>",
+        "ranking":"2",
+        "tuition": "25000",
+        "webUserEmail": "tuyen.phk@gmail.com",
+        "webUserMajor": "Business",
+        "webUserComment":"Ivy League Schools"
+    },
+    {
+        "name": "University of Chicago",
+        "state": "IL",
+        "image": "<img src='pics/universities/chicago.jpg'>",
+        "ranking":"6",
+        "tuition": "",
+        "webUserEmail": "T.NguyenRaw@gmail.com",
+        "webUserMajor": "Engineering",
+        "webUserComment":"One of the best schools in USA"
+    },
+   {
+        "name": "San Diego State Unversity",
+        "state": "CA",
+        "image": "<img src='pics/universities/sandiego.jpg'>",
+        "ranking":"",
+        "tuition": "",
+        "webUserEmail": "huongcla@gmail.com",
+        "webUserMajor": "Business",
+        "webUserComment":"There are lots of opportunities here because it is located near Sillicon Valley"
+    },
+    {
+        "name": "Brown University",
+        "state": "RI",
+        "image": "<img src='pics/universities/brown.png'>",
+        "ranking":"14",
+        "tuition": "17000",
+        "webUserEmai":"",
+        "webUserMajor": "Biology",
+        "webUserComment":"Love people here"
+    },
+    {
+        "name": "University of South Florida",
+        "state": "",
+        "image": "<img src='pics/universities/southflorida.jpg'>",
+        "ranking":"104",
+        "tuition": "",
+        "webUserEmail": "",
+        "webUserMajor": "MBA",
+        "webUserComment":"Good school for business"
+    },
+    {
+        "name": "Drexel University",
+        "state": "",
+        "image": "<img src='pics/universities/drexel.jpg'>",
+        "ranking":"94",
+        "tuition": "",
+        "webUserEmail": "",
+        "webUserMajor": "Engineering",
+        "webUserComment":"One of the best schools for STEM majors in Philadelphia"
+    }
+]
