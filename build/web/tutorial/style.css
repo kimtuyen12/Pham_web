@@ -42,7 +42,7 @@ body {
 
 /* Container around content */
 .container {
-  padding: 10px 40px;
+  padding: 30px 40px;
   position: relative;
   background-color: inherit;
   width: 50%;
@@ -81,7 +81,7 @@ body {
   top: 22px;
   width: 0;
   z-index: 1;
-  right: 30px;
+  right: 10px;
   border: medium solid white;
   border-width: 10px 0 10px 10px;
   border-color: transparent transparent transparent white;
@@ -108,7 +108,7 @@ body {
 
 /* The actual content */
 .content {
-  padding: 20px 30px;
+  padding: 10px 30px;
   background-color: white;
   position: relative;
   border-radius: 6px;
@@ -150,7 +150,7 @@ body {
 
 .flip-card {
   background-color: transparent;
-  float: right;
+  
   height: 200px;
   width: 200px;
   border: 1px solid #f1f1f1;

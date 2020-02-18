@@ -14,7 +14,7 @@ function blog(id) {
 
             <div class="row">
                 <div>
-                    <p> [Blog Entry 2] t is easy to follow the routing with the first four methods which are two pages copy paste, internal links
+                    <p> [Blog Entry 2] It is easy to follow the routing with the first four methods which are two pages copy paste, internal links
                     reuse without routing and simple routing. Besides that, routing framework and routing table are quite harder since it is required more complicated code 
                     in the script section.
                 </div>
@@ -27,6 +27,29 @@ function blog(id) {
                     javascript to make it display in the same page. The rest of the homework was quite intuitive and made a good bit of sense.
                     I found it particularly easy to export json from mySqlWorkbench, this saved me a ton of time in creating data. 
                     An important concept that I learned was the use of ajax and how it is done in pure javascript.
+                </div>
+                <div class='stopFloat'></div>
+            </div>
+    
+            <div class="row">
+                <div>
+                    <p> [Blog Entry 4] In this homework, I choose to tutorial option to combine 2 effects to display the json data in the single page.
+                    Based on the instruction I found it is easy to follow step by step, but at first I found difficult to find two effects 
+                    that are approriate with my webpage. After that, I found the timeline and the flip-card effects for my webpage, which will look nice.
+                    Besides, thanks to W3 School web, I would have learn experiences in CSS and HTML in both effects. </p>
+                    <p> If you want to go to my tutorial details, you would get go in two links below: </p>
+                    <ul>
+                    <li>
+                        Click <a target="_blank" href="tutorial/proposal.pdf">here</a> for my Tutorial Proposal, 
+                        a pdf that describes the provider style JS code I propose to implement. The pdf
+                        provides links to the web pages that inspired my idea.
+                    </li>
+                    <li>
+                        Click <a target="_blank" href="tutorial/poc.html">here</a> to see my Proof of Concept
+                        code, which gives an idea of what I'm trying to accomplish but has not been fully implemented.
+                    </li>
+                    </ul>
+                      
                 </div>
                 <div class='stopFloat'></div>
             </div>
