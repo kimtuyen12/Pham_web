@@ -6,32 +6,29 @@ var universities = {};
 universities.display = function (id) {
 
     var content = `  
+        <style>
+            /* override size of image from the clicksort.css */
+            .clickSort td img { /* applies to any <img> tag in a <td> tag in any element classed "clickSort" */
+                width: 100px;
+                border-radius: 6px;
+                box-shadow: 3px 3px 3px #444444;
+            }
+        </style> 
         <div id="listHere" class="clickSort"></div>
     `;
     document.getElementById(id).innerHTML = content;
 
-    function formatCurrency(num) {
-        var myNum = Number(num);
-        return myNum.toLocaleString("en-US", {style: "currency", currency: "USD", minimumFractionDigits: 2});
+    ajax("webAPIs/listUniversityAPI.jsp", processData, "listHere");
+    function processData (obj) {
+        if (obj.dbError.length > 0) {
+        document.getElementById("listHere").innerHTML = obj.dbError;
+        return;
     }
-
-    // invoke ajax function to read cars.json and if the call was successful, 
-    // run function processJSON, otherwise, put an error message in the DOM element 
-    // that has id "listHere".
-    ajax("json/universities.json", processData, "listHere");
-
-    function processData(carList) {
-
-        console.log(carList);  // car list as an array of objects
-
-        // modify properties (image and price) of the array of objects so it will look 
-        // better on the page.
-        for (var i = 0; i < carList.length; i++) {           
-            carList[i].tuition = formatCurrency(carList[i].tuition);           
-        }
-
-        // Making a DOM object, nothing shows yet... 
-        MakeSortableTable(carList, "listHere");
-
+    list = obj.universityList; 
+    for (var i=0; i<list.length; i++){
+        list[i].universityImage = "<img src='" + list[i].universityImage + "'>";
+    }
+    MakeSortableTable(list,"listHere");
+        
     }
 };
