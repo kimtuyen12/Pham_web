@@ -45,13 +45,13 @@ public final class listUniversityAPI_jsp extends org.apache.jasper.runtime.HttpJ
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
-      out.write(" \n");
-      out.write("\n");
-      out.write("\n");
-      out.write(" \n");
-      out.write(" \n");
-      out.write("\n");
-      out.write("\n");
+      out.write(" \r\n");
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write(" \r\n");
+      out.write(" \r\n");
+      out.write("\r\n");
+      out.write("\r\n");
 
     // default constructor creates nice empty StringDataList with all fields "" (empty string, nothing null).
     StringDataList list = new StringDataList();
@@ -65,7 +65,7 @@ public final class listUniversityAPI_jsp extends org.apache.jasper.runtime.HttpJ
         list = universityView.allUniversityAPI(dbc);
     }
 
-      dbc.close(); // EVERY code path that opens a db connection, must also close it - no DB Conn leaks.
+     dbc.close(); // EVERY code path that opens a db connection, must also close it - no DB Conn leaks.
 
     // This object (from the GSON library) can to convert between JSON <-> POJO (plain old java object) 
     Gson gson = new Gson();

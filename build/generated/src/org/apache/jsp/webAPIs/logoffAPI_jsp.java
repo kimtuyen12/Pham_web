@@ -3,12 +3,8 @@ package org.apache.jsp.webAPIs;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
-import dbUtils.*;
-import model.webUser.*;
-import view.WebUserView;
-import com.google.gson.*;
 
-public final class listUsersAPI_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class logoffAPI_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -34,7 +30,7 @@ public final class listUsersAPI_jsp extends org.apache.jasper.runtime.HttpJspBas
     PageContext _jspx_page_context = null;
 
     try {
-      response.setContentType("application/json; charset=UTF-8");
+      response.setContentType("text/html");
       pageContext = _jspxFactory.getPageContext(this, request, response,
       			null, true, 8192, true);
       _jspx_page_context = pageContext;
@@ -45,31 +41,9 @@ public final class listUsersAPI_jsp extends org.apache.jasper.runtime.HttpJspBas
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
-      out.write(" \r\n");
-      out.write("\r\n");
-      out.write("\r\n");
-      out.write(" \r\n");
-      out.write(" \r\n");
-      out.write("\r\n");
-      out.write("\r\n");
 
-    // default constructor creates nice empty StringDataList with all fields "" (empty string, nothing null).
-    StringDataList list = new StringDataList();
-
-    DbConn dbc = new DbConn();
-    list.dbError = dbc.getErr(); // returns "" if connection is good, else db error msg.
-
-    if (list.dbError.length() == 0) { // if got good DB connection,
-
-        System.out.println("*** Ready to call allUsersAPI");
-        list = WebUserView.allUsersAPI(dbc);
-    }
-
-      dbc.close(); // EVERY code path that opens a db connection, must also close it - no DB Conn leaks.
-
-    // This object (from the GSON library) can to convert between JSON <-> POJO (plain old java object) 
-    Gson gson = new Gson();
-    out.print(gson.toJson(list).trim());
+    out.print("LOG OFF SUCCESS");
+    session.invalidate(); 
 
     } catch (Throwable t) {
       if (!(t instanceof SkipPageException)){

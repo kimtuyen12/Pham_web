@@ -16,6 +16,9 @@
         <!-- Additional rules for Mobile responsive, followed by desktop rules grouped in Media Query -->
         <link href="style/multi_column.css" rel="stylesheet" type="text/css" />
         <link href="style/clickSort.css" rel="stylesheet" type="text/css" />
+        
+        <!-- Link to logon style -->
+        <link href="style/logon.css" rel="stylesheet" type="text/css" /> 
 
         <!-- Styles in this internal style sheet will override styles in the external style sheet. -->
         <style> 
@@ -42,10 +45,10 @@
                 <div class="dropdown">
                     <img class="dropHeader" onclick="dropdown('accountDropDown')" title="Account" src="icons/account_dd_icon_H24.png" alt="Account" >
                     <div class="dropContent" id="accountDropDown">
-                        <a>Register</a> <br/>
-                        <a>Log In</a> <br/>
-                        <a>Profile</a> <br/>
-                        <a>Log Out</a>
+                        <a href="#/Register">Register</a> <br>
+                        <a href="#/logon">Log-on</a> <br>
+                        <a href="#/Profile">Profile</a> <br>
+                        <a href="#/logoff">Log-off</a>
                     </div> 
                 </div>
                 <div class="dropdown">
@@ -80,12 +83,17 @@
         <script src="js/dropdownFw.js"></script>
         <script src="js/routeFw.js"></script>
         <script src="js/MakeSortableTable.js"></script>
+        <script src="js/ajax2.js"></script>
         <script src="js/ajax.js"></script>
 
         <script src="js/components/blog.js"></script>
         <script src="js/components/home.js"></script>
         <script src="js/components/users.js"></script>
         <script src="js/components/universities.js"></script>
+        
+        <script src="js/components/logon.js"></script>
+        <script src="js/components/getProfile.js"></script>
+        <script src="js/components/logoff.js"></script>
 
         <script>
             "use strict";
@@ -98,6 +106,9 @@
             myRoutes['#/universities'] = universities.display; // funtion universities
             myRoutes['#/users'] = users.display; // function users
             myRoutes['#/blog'] = blog; // function blog
+            myRoutes['#/logon']=logon.UI;
+            myRoutes['#/Profile']= getProfile.UI;
+            myRoutes['#/logoff']= logoff.UI;
 
             // routeFw returns a routing object that has private and public 
             // data members and methods. 

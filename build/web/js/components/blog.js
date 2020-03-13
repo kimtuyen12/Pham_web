@@ -80,11 +80,40 @@ function blog(id) {
                 and <a href="webAPIs/listUniversityAPI.jsp">listUniversityAPI</a> is my lists all universities in database entries.
                 
            </p>
-
             </div>
             <div class='stopFloat'></div>
         </div>
+    
+         <div class="row">
+            <div>
+                <p> [Blog Entry 6 - Log On] In this homework, I learned about APIs and User Interfaces. This week we created 3 new web APIs, which are 
+                log on, log off, and get profile.</p>
+                
+                 <p>Under the account tab in the navigation bar, it shows three links Log On, Log Off, and Get Profile. Each of these links call 
+                their own user interfaces which call one of the three web APIs I just discussed, then displays the content on to the screen.</p>
 
+                <p>The Log On API takes in two parameters, an email and a password. It then checks to see if those credentials match to any in the 
+                database. If they do it gives back that users data. If it does not it prints an error message. It also saves the web user object into 
+                the session which means the web users information is now in the system. For the Get Profile API, It just checks to see if there is 
+                an object saved in the system. The Log Off API just invalidates the session, meaning the user information saved after someone logged on, 
+                is discarded. If someone was to go to the Get Profile page again (after loggging out), an error would  show saying no one is logged on</p>
+                
+                <p>The most difficult part of the assignment was creating and understanding the Log on API, as well as the webUser/dbMods. But it was
+                nice to have sample code to work on Log on API. After figuring out the Log on API, it was easy to work on get profile API and 
+                Log off API.</p>
+    
+                <p> To see how my Log On code works, click on these items under the account icon: "Log On", "Profile", and "Log Off". You'll only see 
+                the profile information if you are logged on. Below are links to my APIs.</p>
+                <ul>
+                <li>To invoke my User List Web API, click <a target="_blank" href="webAPIs/listUsersAPI.jsp">here</a>.</li>
+                <li>To invoke my Log On Web API (logging in to a user in my database), click <a target="_blank" href="webAPIs/logonAPI.jsp?email=tuh39709@temple.edu&password=aw">here</a>.</li>
+                <li>To invoke my Get Profile Web API, click <a target="_blank" href="webAPIs/getProfileAPI.jsp">here</a>.</li>
+                <li>To invoke my Log Off Web API, click <a target="_blank" href="webAPIs/logoffAPI.jsp">here</a>
+                    (try clicking on Get Profile again and you will see the data is no longer there)</li>
+                </p>
+            </div>
+            <div class='stopFloat'></div>
+        </div>
 
     `;
     document.getElementById(id).innerHTML = content;
