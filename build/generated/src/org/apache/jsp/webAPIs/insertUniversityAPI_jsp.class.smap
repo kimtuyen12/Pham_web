@@ -1,0 +1,12 @@
+SMAP
+insertUniversityAPI_jsp.java
+JSP
+*S JSP
+*F
++ 0 insertUniversityAPI.jsp
+webAPIs/insertUniversityAPI.jsp
+*L
+1,8:47
+14,27:60
+40,2:87
+*E

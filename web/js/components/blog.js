@@ -115,6 +115,20 @@ function blog(id) {
             <div class='stopFloat'></div>
         </div>
 
+        <div class="row">
+            <div>
+                <p> [Blog Entry 7 - Insert HW] In this homework, I extend the web application so that can insert a web_user record and insert an "other"
+                record. In each case, I will have a JSP Web API that handles the insert, providing field level, record level, and database error checking and messaging 
+                (in JSON format) back to the client. They are all of concepts I have learned from this homework.</p>
+                
+                <p>The easy part for this homework was Insert a web_user as it looks like for the sample code.</p>
+    
+                <p>The most difficult part for this homework was working with the university JavaScript since it requires a lot of change for the 
+                university role and the university insert.</p>
+    
+                <p>To invoke to my database desgin from my database homwork, click <a href="docs/database.docx">database</a>.
+                
+        </div>
     `;
     document.getElementById(id).innerHTML = content;
 }

@@ -7,7 +7,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Link for dropdown Style in CSS --> 
-        <link href="style/_dropdownStyle.css" rel="stylesheet" type="text/css" /> 
+        <link href="style/dropdownStyle.css" rel="stylesheet" type="text/css" /> 
 
         <!-- Link to an External Style Sheet --> 
         <!-- Layout should be single column, good for Mobile. -->
@@ -20,6 +20,11 @@
         <!-- Link to logon style -->
         <link href="style/logon.css" rel="stylesheet" type="text/css" /> 
 
+        <link href="style/modalStyle.css" rel="stylesheet" type="text/css" /> 
+        <link href="style/insertStyle.css" rel="stylesheet" type="text/css" />  
+        
+        <link rel="shortcut icon" href="icons/favicon.ico">
+        
         <!-- Styles in this internal style sheet will override styles in the external style sheet. -->
         <style> 
             .callOut {
@@ -45,7 +50,7 @@
                 <div class="dropdown">
                     <img class="dropHeader" onclick="dropdown('accountDropDown')" title="Account" src="icons/account_dd_icon_H24.png" alt="Account" >
                     <div class="dropContent" id="accountDropDown">
-                        <a href="#/Register">Register</a> <br>
+                        <a href="#/userInsert">Register</a> <br/>
                         <a href="#/logon">Log-on</a> <br>
                         <a href="#/Profile">Profile</a> <br>
                         <a href="#/logoff">Log-off</a>
@@ -83,13 +88,17 @@
         <script src="js/dropdownFw.js"></script>
         <script src="js/routeFw.js"></script>
         <script src="js/MakeSortableTable.js"></script>
+        <script src="js/MakeTableBuilder.js"></script>
         <script src="js/ajax2.js"></script>
         <script src="js/ajax.js"></script>
+        <script src="js/Utils.js"></script>
+        <script src="js/modalFw.js"></script>
+        <script src="js/CRUD_icons.js"></script>    
 
         <script src="js/components/blog.js"></script>
         <script src="js/components/home.js"></script>
-        <script src="js/components/users.js"></script>
-        <script src="js/components/universities.js"></script>
+        <script src="js/components/userCRUD.js"></script>
+        <script src="js/components/universityCRUD.js"></script>
         
         <script src="js/components/logon.js"></script>
         <script src="js/components/getProfile.js"></script>
@@ -97,14 +106,18 @@
 
         <script>
             "use strict";
-            dropdownFw(); // accepting all the default values
+           // accepting all the default values
 
             var myRoutes = [];
 
             myRoutes['#/'] = home;  // on page reload, function home will run
             myRoutes['#/home'] = home; // function home
-            myRoutes['#/universities'] = universities.display; // funtion universities
-            myRoutes['#/users'] = users.display; // function users
+   //       myRoutes['#/universities'] = universities.display; // funtion universities
+            myRoutes['#/universities'] = universities.list; // funtion universities list
+            myRoutes['#/universityInsert'] = universities.insertUI; // funtion universities insert
+  //        myRoutes['#/users'] = users.display; // function users
+            myRoutes['#/users'] = users.list; // function users list
+            myRoutes['#/userInsert'] = users.insertUI; // function users insert
             myRoutes['#/blog'] = blog; // function blog
             myRoutes['#/logon']=logon.UI;
             myRoutes['#/Profile']= getProfile.UI;
@@ -116,6 +129,7 @@
             // or just accept whatever defaults are set by the framework.
             var myRoutes = routeFw({
                 routeArray: myRoutes,
+                startingPath: '#/home',
                 contentId: "content"
             });
 
@@ -126,6 +140,8 @@
                 dropContentStyle: "dropContent",
                 hiddenRight: "-500px"
             });
+            
+            var tableBuilder = MakeTableBuilder("icons/sortUpDown16.png");
         </script>
 
     </body>

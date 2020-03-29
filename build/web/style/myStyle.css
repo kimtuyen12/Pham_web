@@ -87,3 +87,19 @@ body {
     text-align:center;
     padding:8px;	 	 
 }
+
+table{
+    margin: auto;
+}
+
+table td{
+    border: 2px;
+    border-style: solid;
+    border-color: black;
+}
+
+table th{
+    border: 3px;
+    border-style: solid;
+    border-color: black;
+}

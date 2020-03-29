@@ -15,7 +15,9 @@ getProfile.UI = function(id){
                 box-shadow: 3px 3px 3px #444444;
             }
             </style> 
-            <div id="msgArea"></div>
+            <div id="msgArea">
+                <style> test-align:center; </style>
+            </div>
         `;
     document.getElementById(id).innerHTML = content;
     getProfile.profile('msgArea');

@@ -10,7 +10,7 @@ import dbUtils.*;
 
 public class WebUserView {
 
-    public static StringDataList allUsersAPI(DbConn dbc) {
+    public static StringDataList getAllUsers(DbConn dbc) {
 
         //PreparedStatement stmt = null;
         //ResultSet results = null;
@@ -34,5 +34,4 @@ public class WebUserView {
         }
         return sdl;
     }
-
 }
