@@ -117,7 +117,7 @@ function blog(id) {
 
         <div class="row">
             <div>
-                <p> [Blog Entry 7 - Insert HW] In this homework, I extend the web application so that can insert a web_user record and insert an "other"
+                <p> [Blog Entry 7 - Insert HW] In this homework, I extend the web application so that can insert a web_user record and insert a "university"
                 record. In each case, I will have a JSP Web API that handles the insert, providing field level, record level, and database error checking and messaging 
                 (in JSON format) back to the client. They are all of concepts I have learned from this homework.</p>
                 

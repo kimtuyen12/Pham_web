@@ -1,0 +1,60 @@
+
+<html>
+    <head>
+        <title>Gallery Posts</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="gallery.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <!--div with unique ids to hold each component-->
+        <div id= "Shoe-Gallery"></div>
+        <div id="Dog-Gallery"></div>
+
+        <script src="../../js/ajax2.js"></script>
+        <script src="makeGallery.js"></script>
+
+        <script>
+            //making first ajax call to first json file to gather data for first component on page, and sending it to be processed. 
+            ajax2({
+                url: "shoes.json",
+                successFn: processData1,
+                errorId: "Shoe-Gallery"
+            });
+
+            //making second ajax call to second json file to gather data for second component on page, and sending it to be processed. 
+            ajax2({
+                url: "dogs.json",
+                successFn: processData2,
+                errorId: "Dog-Gallery"
+            });
+
+
+
+            //first process function. 
+            function processData1(obj) {
+                //creating list to hold objects
+                let shoeList = [];
+                //iterating through object data
+                //initializing an object, adding information to it, then pushing it to list
+                for (var i = 0; i < obj.length; i++) {
+                    let o = {};
+                    o.image = obj[i].pic;
+                    o.title = obj[i].shoeType;
+                    o.content = obj[i].review;
+                    o.caption1 = "Price: " + obj[i].price;
+                    o.caption2 = "Rate: " + obj[i].rating;
+                    shoeList.push(o);
+                }
+                //calling make gallery function and providing the div id and object list as parameters
+                makeGallery({id: "Shoe-Gallery",
+                    title: "Shoe Reviews",
+                    list: shoeList
+                });
+
+            }
+
+
+        </script>
+    </body>
+</html>

@@ -47,7 +47,7 @@ public class DbMods {
 
         StringDataList sdl = new StringDataList();
         try {
-            String sql = "SELECT web_user_id, user_email, user_password, membership_fee, birthday, image, "
+            String sql = "SELECT web_user_id, user_email, user_password, image, membership_fee, birthday, "
                     + "web_user.user_role_id, user_role_type "
                     + "FROM web_user, user_role WHERE web_user.user_role_id = user_role.user_role_id "
                     + "AND web_user_id = ?";
@@ -137,7 +137,7 @@ public class DbMods {
             // Encode string values into the prepared statement (wrapper class).
             pStatement.setString(1, inputData.userEmail); // string type is simple
             pStatement.setString(2, inputData.userPassword);
-            pStatement.setString(3, inputData.userPassword);
+            pStatement.setString(3, inputData.image);
             pStatement.setBigDecimal(4, ValidationUtils.decimalConversion(inputData.membershipFee));
             pStatement.setDate(5, ValidationUtils.dateConversion(inputData.birthday));
             pStatement.setInt(6, ValidationUtils.integerConversion(inputData.userRoleId));
