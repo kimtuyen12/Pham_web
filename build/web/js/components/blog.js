@@ -127,6 +127,27 @@ function blog(id) {
                 university role and the university insert.</p>
     
                 <p>To invoke to my database desgin from my database homwork, click <a href="docs/database.docx">database</a>.
+                </div>
+            <div class='stopFloat'></div>
+                
+        </div>
+    
+        <div class="row">
+            <div>
+                <p> [Blog Entry 8 - Update HW] In this homework, I have learned about updating data. We created a couple new web APIs that get server 
+                side code from the database. With these new APIs we created JavaScript code that can edit the data found in the database and 
+                ultimately the data we use for our website. We were given sample code to work through to implement our own update user functions 
+                as well as our update other function. This was a cool assignment because I learned a lot more about server side code and APIs, 
+                it was pretty challenging to work through and try to understand the sample code because there was a lot and it was pretty advanced code.</p>
+    
+                <p>The easy part for this homework was update userrs as it looks like for the sample code.</p>
+    
+                <p> I think the most difficult part I had was trying to understand and work through what everything meant in ther user.js file found in the
+                 sample code. This code implemented the CRUD idea and there was a lot of code there that I didn't learn and don't need to learn yet. 
+                I had to kind parse through the code, figure out what everything was doing, and figure out what I needed to meet this hw requirement 
+                of updating data. There was so much going, plus the reusability with the insert function made understanding the update function diffficult. </p>
+    
+                <p>To invoke to my database desgin from my database homwork, click <a href="docs/database.docx">database</a>.
                 
         </div>
     `;

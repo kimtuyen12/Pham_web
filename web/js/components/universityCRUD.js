@@ -103,6 +103,9 @@ var universities = {};
 
                 // Remove this once you are done debugging...
                 universityList[i].errorMsg = obj.universityList[i].errorMsg;
+                
+                universityList[i].update = CRUD_icons.update + "' alt='update icon' onclick='universities.updateUI(" +
+                        universityList[i].webUserId + ", `" + targetId + "` )' />";
             }
 
             // add click sortable HTML table to the content area
@@ -128,67 +131,107 @@ var universities = {};
         } // end of function success
     }; // end of function users.list
 
+     // pull out common code (between insert UI and update UI).
+   // pull out common code (between insert UI and update UI).
+    function createInsertUpdateArea(isUpdate, targetId) {
 
-    universities.insertUI = function (targetId) {
-        console.log("universities.inusertUI function - targetId is " + targetId);
+        // set variables as if it will be insert...
+        var universityIdRowStyle = ' style="display:none" '; // hide row with webUserId
+        var saveFn = "universities.insertSave()";
+        
+        // change variables for update
+        if (isUpdate) {
+            universityIdRowStyle = ""; // don't hide row with webUserId 
+            saveFn = "universities.updateSave()";
+        }
 
         var html = `
-    <div id="insertArea">
-        <br/>
-        <table>
-            <tr>
-                <td>University Name</td>
-                <td><input type="text"  id="universityName" /></td>
-                <td id="universityNameError" class="error"></td> 
-            </tr>
-            <tr>
-                <td>University State</td>
-                <td><input type="text"  id="universityState" /></td>
-                <td id="universityStateError" class="error"></td>
-            </tr>
-            <tr>
-                <td>University Image</td>
-                <td><input type="text" id="universityImage" /></td>
-                <td id="universityImageError" class="error"></td>
-            </tr>
-            <tr>
-                <td>Tuition</td>
-                <td><input type="text" id="tuition" /></td>
-                <td id="tuitionError" class="error"></td>
-            </tr>
-             <tr>
-                <td>Establishment</td>
-                <td><input type="text" id="establishment" /></td>
-                <td id="establishmentError" class="error"></td>
-            </tr>
-             <tr>
-                <td>University Ranking</td>
-                <td><input type="text" id="universityRanking" /></td>
-                <td id="universityRankingError" class="error"></td>
-            </tr>
-            <tr>
-                <td>University Role</td>
-                <td>
-                    <select id="roleUniPickList">
-                    <!-- JS code will make ajax call to get all the roles 
-                    then populate this select tag's options with those roles -->
-                    </select>
-                </td>
-                <td id="webUserIdError" class="error"></td>
-            </tr>
-            <tr>
-                <!-- see js/insertUniversity.js to see the insertUniversity function (make sure index.html references the js file) -->
-                <td><button onclick="universities.insertSave()">Save</button></td>
-                <td id="recordError" class="error"></td>
-                <td></td>
-            </tr>
-        </table>
-    </div>
-    `;
+            <div id="insertArea">
+                <div id="ajaxError">&nbsp;</div>
+                <table>
+                    <tr ${universityIdRowStyle}>
+                        <td>University Id</td>
+                        <td><input type="text"  id="universityId" disabled /></td>
+                        <td id="universityIdError" class="error"></td> 
+                    </tr>
+                   <td>University Name</td>
+                        <td><input type="text"  id="universityName" /></td>
+                        <td id="universityNameError" class="error"></td> 
+                    </tr>
+                    <tr>
+                        <td>University State</td>
+                        <td><input type="text"  id="universityState" /></td>
+                        <td id="universityStateError" class="error"></td>
+                    </tr>
+                    <tr>
+                        <td>University Image</td>
+                        <td><input type="text" id="universityImage" /></td>
+                        <td id="universityImageError" class="error"></td>
+                    </tr>
+                    <tr>
+                        <td>Tuition</td>
+                        <td><input type="text" id="tuition" /></td>
+                        <td id="tuitionError" class="error"></td>
+                    </tr>
+                     <tr>
+                        <td>Establishment</td>
+                        <td><input type="text" id="establishment" /></td>
+                        <td id="establishmentError" class="error"></td>
+                    </tr>
+                     <tr>
+                        <td>University Ranking</td>
+                        <td><input type="text" id="universityRanking" /></td>
+                        <td id="universityRankingError" class="error"></td>
+                    </tr>
+                    <tr>
+                        <td>User Email</td>
+                        <td>
+                            <select id="roleUniPickList">
+                            <!-- JS code will make ajax call to get all the roles 
+                            then populate this select tag's options with those roles -->
+                            </select>
+                        </td>
+                        <td id="webUserIdError" class="error"></td>
+                    </tr>
+                    <tr>
+                        <td><button onclick="${saveFn}">Save</button></td>
+                        <td id="recordError" class="error"></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        `;
+
         document.getElementById(targetId).innerHTML = html;
+    }
+
+    universities.updateUI = function (universityId, targetId) {
+
+        // This is needed to "reset" the application's perception of the "current" link. 
+        // Otherwise, when the user tries to click on "user list" after doing a user list -> update
+        // operation, there will be no response (because link would not change). 
+        // Setting window.location.hash is like auto-clicking for the user (in code). 
+        // But also in index.html, you have to add a routing rule for this link and associate 
+        // it will a null function (a do nothing function) - to avoid a routing error.
+        window.location.hash = "#/universityUpdate";
+
+        createInsertUpdateArea(true, targetId); // first param is isUpdate (boolean)
+        ajax2({
+            url: "webAPIs/getUniversityWithRolesAPI.jsp?id=" + universityId,
+            successFn: proceed,
+            errorId: "ajaxError"
+        });
+        function proceed(obj) { // obj is what got JSON.parsed from Web API's output
+            dbDataToUI(obj);
+        }
+    };
+
+    universities.insertUI = function (targetId) {
+
+        createInsertUpdateArea(false, targetId); // first param is isUpdate (boolean)
 
         ajax2({
-            url: "webAPIs/getRolesUniversityAPI.jsp",
+            url: "webAPIs/getUniRolesAPI.jsp",
             successFn: setRoleUniPickList,
             errorId: "webUserIdError"
         });
@@ -203,22 +246,11 @@ var universities = {};
                 return;
             }
 
-            /*  copy/pasting the first entry from the output of my get role API
-             {
-             "dbError": "",
-             "roleList": [
-             {
-             "userRoleId": "1",
-             "userRoleType": "Admin",
-             "errorMsg": ""
-             }, ...
-             */
-
             Utils.makePickList({
-                id: "roleUniPickList",
-                list: jsonObj.roleUniversityList,
-                valueProp: "userEmail",
-                keyProp: "webUserId"
+                id: "roleUniPickList", // id of select tag on the page
+                list: jsonObj.roleUniversityList, // JS array that holds the objects to populate the select tag
+                valueProp: "userEmail", // field name of objects in list that holds the values of the select tag options
+                keyProp: "webUserId"      // field name of objects in list that holds the keys of the options 
             });
 
         } // setRolePickList
@@ -226,15 +258,39 @@ var universities = {};
     }; // users.insertUI
 
 
-    // a private function
-    function getUserDataFromUI() {
+    function dbDataToUI(obj) {
+
+        var universityObj = obj.university;
+        var roleUniversityList = obj.uniRoleInfo.roleUniversityList;
+
+        document.getElementById("universityId").value = universityObj.universityId;
+        document.getElementById("universityName").value = universityObj.universityName;
+        document.getElementById("universityState").value = universityObj.universityState;
+        document.getElementById("universityImageError").innerHTML = universityObj.universityImage;
+        document.getElementById("tuition").value = universityObj.tuition;
+        document.getElementById("establishment").value = universityObj.establishment;
+        document.getElementById("universityRanking").value = universityObj.universityRanking;
+        console.log("selected role id is " + universityObj.webUserId);
+        Utils.makePickList({
+            id: "roleUniPickList", // id of <select> tag in UI
+            list: roleUniversityList, // JS array that holds objects to populate the select list
+            valueProp: "userEmail", // field name of objects in list that hold the values of the options
+            keyProp: "webUserId", // field name of objects in list that hold the keys of the options
+            selectedKey: universityObj.universityId  // key that is to be pre-selected (optional)
+        });
+    }
+    ;
+
+    function getUniDataFromUI() {  // a private function
 
         // New code for handling role pick list.
         var ddList = document.getElementById("roleUniPickList");
+        console.log("getUniDataFromUI");
 
         // create a user object from the values that the user has typed into the page.
         var universityInputObj = {
 
+            "universityId": document.getElementById("universityId").value,
             "universityName": document.getElementById("universityName").value,
             "universityState": document.getElementById("universityState").value,
             "universityImage": document.getElementById("universityImage").value,
@@ -242,21 +298,18 @@ var universities = {};
             "establishment": document.getElementById("establishment").value,
             "universityRanking": document.getElementById("universityRanking").value,
 
-            // Modification here for role pick list
-            //"userRoleId": document.getElementById("userRoleId").value,
             "webUserId": ddList.options[ddList.selectedIndex].value,
-
             "userEmail": "",
             "errorMsg": ""
         };
 
         console.log(universityInputObj);
 
-        // JSON.stringify converts the javaScript object into JSON format 
-        // (the reverse operation of what gson does on the server side).
+        // JSON.stringify converts a javaScript object into JSON format 
+        // (like what GSON does on the server side).
         // 
         // Then, you have to encode the user's data (encodes special characters 
-        // like space to %20 so the server will accept it with no security error. 
+        // like space to %20 so the server will accept it with no security error). 
         return encodeURIComponent(JSON.stringify(universityInputObj));
         //return escape(JSON.stringify(userInputObj));
     }
@@ -280,7 +333,7 @@ var universities = {};
         console.log("universities.insertSave was called");
 
         // create a user object from the values that the user has typed into the page.
-        var myData = getUserDataFromUI();
+        var myData = getUniDataFromUI();
 
         ajax2({
             url: "webAPIs/insertUniversityAPI.jsp?jsonData=" + myData,
@@ -302,4 +355,33 @@ var universities = {};
         }
     };
 
+    universities.updateSave = function () {
+
+        console.log("universities.updateSave was called");
+
+        // create a user object from the values that the user has typed into the page.
+        var myData = getUniDataFromUI();
+
+        ajax2({
+            url: "webAPIs/updateUniversityAPI.jsp?jsonData=" + myData,
+            successFn: processUpdate,
+            errorId: "recordError"
+        });
+
+        function processUpdate(jsonObj) {
+
+            // the server prints out a JSON string of an object that holds field level error 
+            // messages. The error message object (conveniently) has its fiels named exactly 
+            // the same as the input data was named. 
+
+            if (jsonObj.errorMsg.length === 0) { // success
+                jsonObj.errorMsg = "Record successfully updated !!!";
+            }
+
+            writeErrorObjToUI(jsonObj);
+        }
+
+    };
+
 }());  // the end of the IIFE
+        

@@ -8,9 +8,9 @@ import java.sql.ResultSet;
 
  public class DbMods {
     
-    public static StringDataList findById(DbConn dbc, String id) {
+    public static StringData findById(DbConn dbc, String id) {
 
-        StringDataList sdl = new StringDataList();
+        StringData sd = new StringData();
         try {
             String sql = "SELECT university_id, university_name, university_state, university_image, tuition, establishment, "
                     + "university_ranking, university.web_user_id, user_email, user_password  "+
@@ -24,18 +24,18 @@ import java.sql.ResultSet;
 
             ResultSet results = stmt.executeQuery();
             if (results.next()) { // id is unique, one or zero records expected in result set
-                sdl.add(results);
+                sd = new StringData(results);
+            } else {
+                sd.errorMsg = "The database has no Web User Record with id " + id;
             }
             results.close();
             stmt.close();
         } catch (Exception e) {
-            StringData sd = new StringData();
-            sd.errorMsg = "Exception thrown in UniversityView.getUniversityById(): " + e.getMessage();
-            sdl.add(sd);
+            sd.errorMsg = "Exception thrown in model.webUser.DbMods.findById(): " + e.getMessage();
         }
-        return sdl;
+        return sd;
 
-    } // getUserById
+    } // findById
     
      /*
     Returns a "StringData" object that is full of field level validation
@@ -126,4 +126,60 @@ import java.sql.ResultSet;
         return errorMsgs;
     } // insert
     
+     public static StringData update(StringData inputData, DbConn dbc) {
+
+        StringData errorMsgs = new StringData();
+        errorMsgs = validate(inputData);
+        if (errorMsgs.getCharacterCount() > 0) {  // at least one field has an error, don't go any further.
+            errorMsgs.errorMsg = "Please try again";
+            return errorMsgs;
+
+        } else { // all fields passed validation
+
+            /*
+                String sql = "SELECT web_user_id, user_email, user_password, membership_fee, birthday, "+
+                    "web_user.user_role_id, user_role_type "+
+                    "FROM web_user, user_role where web_user.user_role_id = user_role.user_role_id " + 
+                    "ORDER BY web_user_id ";
+             */
+            String sql = "UPDATE university SET university_name=?, university_state=?, university_image=?, tuition=?, establishment=?, "
+                    + "university_ranking=?, web_user_id=? WHERE university_id = ?";
+
+            // PrepStatement is Sally's wrapper class for java.sql.PreparedStatement
+            // Only difference is that Sally's class takes care of encoding null 
+            // when necessary. And it also System.out.prints exception error messages.
+            PrepStatement pStatement = new PrepStatement(dbc, sql);
+
+            // Encode string values into the prepared statement (wrapper class).
+            pStatement.setString(1, inputData.universityName); // string type is simple
+            pStatement.setString(2, inputData.universityState);
+            pStatement.setString(3, inputData.universityImage);
+            pStatement.setBigDecimal(4, ValidationUtils.decimalConversion(inputData.tuition));
+            pStatement.setDate(5, ValidationUtils.dateConversion(inputData.establishment));
+            pStatement.setInt(6, ValidationUtils.integerConversion(inputData.universityRanking));
+            pStatement.setInt(7, ValidationUtils.integerConversion(inputData.webUserId));
+            pStatement.setInt(8, ValidationUtils.integerConversion(inputData.universityId));
+
+            // here the SQL statement is actually executed
+            int numRows = pStatement.executeUpdate();
+
+            // This will return empty string if all went well, else all error messages.
+            errorMsgs.errorMsg = pStatement.getErrorMsg();
+            if (errorMsgs.errorMsg.length() == 0) {
+                if (numRows == 1) {
+                    errorMsgs.errorMsg = ""; // This means SUCCESS. Let the user interface decide how to tell this to the user.
+                } else {
+                    // probably never get here unless you forgot your WHERE clause and did a bulk sql update.
+                    errorMsgs.errorMsg = numRows + " records were updated (expected to update one record).";
+                }
+            } else if (errorMsgs.errorMsg.contains("foreign key")) {
+                errorMsgs.errorMsg = "Invalid Web User Id";
+            } else if (errorMsgs.errorMsg.contains("Duplicate entry")) {
+                errorMsgs.errorMsg = "That email address is already taken";
+            }
+
+        } // customerId is not null and not empty string.
+        return errorMsgs;
+    } // update
+
 } // class

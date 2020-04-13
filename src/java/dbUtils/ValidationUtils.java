@@ -42,6 +42,17 @@ public class ValidationUtils {
         }
     } // dateConversion()
 
+    // Formatted dollar amounts may be displayed in an update UI. 
+    // The user may not change them and click update/save. This should not throw an error.
+    // remove $ and commas from dollar amount (Strings) before validating.
+    private static String stripDollar(String val) {
+        if (val == null) {
+            return val;
+        }
+        val=val.replace("$", "");
+        val=val.replace(",", "");
+        return val;
+    }
 
     /* Check string "val" to see if it has a valid BigDecimal in it.
      * Return "" if the input is OK. Otherwise, return error message. */
@@ -54,7 +65,7 @@ public class ValidationUtils {
             return "";  // Since this field is not required, empty string is valid user entry.
         }
         try {
-            java.math.BigDecimal convertedDecimal = new java.math.BigDecimal(val); // not using (on purpose).
+            java.math.BigDecimal convertedDecimal = new java.math.BigDecimal(stripDollar(val)); // not using (on purpose).
             return "";
         } catch (Exception e) {
             return "Please enter an dollar amount";
@@ -68,7 +79,7 @@ public class ValidationUtils {
             return null;  // Since this field is not required, empty string is valid user entry.
         }
         try {
-            return new java.math.BigDecimal(val);
+            return new java.math.BigDecimal(stripDollar(val));
         } catch (Exception e) {
             System.out.println("ValidationUtils.decimalConversion(): cannot convert " + val + " to java.math.BigDecimal.");
             return null;

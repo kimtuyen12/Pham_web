@@ -102,7 +102,17 @@ var users = {};
 
                 // Remove this once you are done debugging...
                 userList[i].errorMsg = obj.webUserList[i].errorMsg;
+                
+                 // *** NEW: ADD EXTRA COLUMN TO DELETE THE RECORD
+                // Note: this needs the word "icon" somewhere in userList[i].delete. Otherwise, the alignTableData function 
+                // of TableBuilder will try to turn the delete column (aleady an <img> tag complete with onclick function) 
+                // into an <img> tag.
 
+                // here we have single quote around the onclick function call. 
+                // Inside the single quote we need to put quotes around the value of targetId (which is content). 
+                // For this, we use the back tick and it works. 
+                userList[i].update = CRUD_icons.update + "' alt='update icon' onclick='users.updateUI(" +
+                        userList[i].userId + ", `" + targetId + "` )' />";
             }
 
             // add click sortable HTML table to the content area
@@ -123,69 +133,111 @@ var users = {};
                 orderPropName: "userEmail",
                 searchKeyElem: searchBox,
                 reverse: false,
-                imgWidth: "50px"
+                imgWidth: "30px"
             });
         } // end of function success
     }; // end of function users.list
 
 
-    users.insertUI = function (targetId) {
-        console.log("users.inusertUI function - targetId is " + targetId);
+    // pull out common code (between insert UI and update UI).
+   // pull out common code (between insert UI and update UI).
+    function createInsertUpdateArea(isUpdate, targetId) {
+
+        // set variables as if it will be insert...
+        var webUserIdRowStyle = ' style="display:none" '; // hide row with webUserId
+        var saveFn = "users.insertSave()";
+        
+        // change variables for update
+        if (isUpdate) {
+            webUserIdRowStyle = ""; // don't hide row with webUserId 
+            saveFn = "users.updateSave()";
+        }
 
         var html = `
-    <div id="insertArea">
-        <br/>
-        <table>
-            <tr>
-                <td>Email Address</td>
-                <td><input type="text"  id="userEmail" /></td>
-                <td id="userEmailError" class="error"></td> 
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td><input type="password"  id="userPassword" /></td>
-                <td id="userPasswordError" class="error"></td>
-            </tr>
-            <tr>
-                <td>Retype Your Password</td>
-                <td><input type="password" id="userPassword2" /></td>
-                <td id="userPassword2Error" class="error"></td>
-            </tr>
-            <tr>
-                <td>Image URL</td>
-                <td><input type="text" id="image" /></td>
-                <td id="imageError" class="error"></td>
-            </tr>
-            <tr>
-                <td>Birthday</td>
-                <td><input type="text" id="birthday" /></td>
-                <td id="birthdayError" class="error"></td> 
-            </tr>
-            <tr>
-                <td>Membership Fee</td>
-                <td><input type="text" id="membershipFee" /></td>
-                <td id="membershipFeeError" class="error"></td>
-            </tr>
-            <tr>
-                <td>User Role</td>
-                <td>
-                    <select id="rolePickList">
-                    <!-- JS code will make ajax call to get all the roles 
-                    then populate this select tag's options with those roles -->
-                    </select>
-                </td>
-                <td id="userRoleIdError" class="error"></td>
-            </tr>
-            <tr>
-                <!-- see js/insertUser.js to see the insertUser function (make sure index.html references the js file) -->
-                <td><button onclick="users.insertSave()">Save</button></td>
-                <td id="recordError" class="error"></td>
-                <td></td>
-            </tr>
-        </table>
-    </div>
-    `;
+            <div id="insertArea">
+                <div id="ajaxError">&nbsp;</div>
+                <table>
+                    <tr ${webUserIdRowStyle}>
+                        <td>Web User Id</td>
+                        <td><input type="text"  id="webUserId" disabled /></td>
+                        <td id="webUserIdError" class="error"></td> 
+                    </tr>
+                    <tr>
+                        <td>Email Address</td>
+                        <td><input type="text"  id="userEmail" /></td>
+                        <td id="userEmailError" class="error"></td> 
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td><input type="password"  id="userPassword" /></td>
+                        <td id="userPasswordError" class="error"></td>
+                    </tr>
+                    <tr>
+                        <td>Retype Your Password</td>
+                        <td><input type="password" id="userPassword2" /></td>
+                        <td id="userPassword2Error" class="error"></td>
+                    </tr>
+                    <tr>
+                        <td>Image URL</td>
+                        <td><input type="text" id="image" /></td>
+                        <td id="imageError" class="error"></td>
+                    </tr>
+                    <tr>
+                        <td>Birthday</td>
+                        <td><input type="text" id="birthday" /></td>
+                        <td id="birthdayError" class="error"></td> 
+                    </tr>
+                    <tr>
+                        <td>Membership Fee</td>
+                        <td><input type="text" id="membershipFee" /></td>
+                        <td id="membershipFeeError" class="error"></td>
+                    </tr>
+                    <tr>
+                        <td>User Role</td>
+                        <td>
+                            <select id="rolePickList">
+                            <!-- JS code will make ajax call to get all the roles 
+                            then populate this select tag's options with those roles -->
+                            </select>
+                        </td>
+                        <td id="userRoleIdError" class="error"></td>
+                    </tr>
+                    <tr>
+                        <td><button onclick="${saveFn}">Save</button></td>
+                        <td id="recordError" class="error"></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        `;
+
         document.getElementById(targetId).innerHTML = html;
+    }
+
+    users.updateUI = function (webUserId, targetId) {
+
+        // This is needed to "reset" the application's perception of the "current" link. 
+        // Otherwise, when the user tries to click on "user list" after doing a user list -> update
+        // operation, there will be no response (because link would not change). 
+        // Setting window.location.hash is like auto-clicking for the user (in code). 
+        // But also in index.html, you have to add a routing rule for this link and associate 
+        // it will a null function (a do nothing function) - to avoid a routing error.
+        window.location.hash = "#/userUpdate";
+
+        createInsertUpdateArea(true, targetId); // first param is isUpdate (boolean)
+        ajax2({
+            url: "webAPIs/getUserWithRolesAPI.jsp?id=" + webUserId,
+            successFn: proceed,
+            errorId: "ajaxError"
+        });
+        function proceed(obj) { // obj is what got JSON.parsed from Web API's output
+            dbDataToUI(obj);
+        }
+    };
+
+    users.insertUI = function (targetId) {
+
+        createInsertUpdateArea(false, targetId); // first param is isUpdate (boolean)
 
         ajax2({
             url: "webAPIs/getRolesAPI.jsp",
@@ -203,22 +255,11 @@ var users = {};
                 return;
             }
 
-            /*  copy/pasting the first entry from the output of my get role API
-             {
-             "dbError": "",
-             "roleList": [
-             {
-             "userRoleId": "1",
-             "userRoleType": "Admin",
-             "errorMsg": ""
-             }, ...
-             */
-
             Utils.makePickList({
-                id: "rolePickList",
-                list: jsonObj.roleList,
-                valueProp: "userRoleType",
-                keyProp: "userRoleId"
+                id: "rolePickList", // id of select tag on the page
+                list: jsonObj.roleList, // JS array that holds the objects to populate the select tag
+                valueProp: "userRoleType", // field name of objects in list that holds the values of the select tag options
+                keyProp: "userRoleId"      // field name of objects in list that holds the keys of the options 
             });
 
         } // setRolePickList
@@ -226,15 +267,39 @@ var users = {};
     }; // users.insertUI
 
 
-    // a private function
-    function getUserDataFromUI() {
+    function dbDataToUI(obj) {
+
+        var webUserObj = obj.webUser;
+        var roleList = obj.roleInfo.roleList;
+
+        document.getElementById("webUserId").value = webUserObj.webUserId;
+        document.getElementById("userEmail").value = webUserObj.userEmail;
+        document.getElementById("userPassword").value = webUserObj.userPassword;
+        document.getElementById("userPassword2").value = webUserObj.userPassword;
+        document.getElementById("imageError").innerHTML = webUserObj.image;
+        document.getElementById("birthday").value = webUserObj.birthday;
+        document.getElementById("membershipFee").value = webUserObj.membershipFee;
+        console.log("selected role id is " + webUserObj.userRoleId);
+        Utils.makePickList({
+            id: "rolePickList", // id of <select> tag in UI
+            list: roleList, // JS array that holds objects to populate the select list
+            valueProp: "userRoleType", // field name of objects in list that hold the values of the options
+            keyProp: "userRoleId", // field name of objects in list that hold the keys of the options
+            selectedKey: webUserObj.userRoleId  // key that is to be pre-selected (optional)
+        });
+    }
+    ;
+
+    function getUserDataFromUI() {  // a private function
 
         // New code for handling role pick list.
         var ddList = document.getElementById("rolePickList");
+        console.log("getUserDataFromUI");
 
         // create a user object from the values that the user has typed into the page.
         var userInputObj = {
 
+            "webUserId": document.getElementById("webUserId").value,
             "userEmail": document.getElementById("userEmail").value,
             "userPassword": document.getElementById("userPassword").value,
             "userPassword2": document.getElementById("userPassword2").value,
@@ -242,21 +307,18 @@ var users = {};
             "birthday": document.getElementById("birthday").value,
             "membershipFee": document.getElementById("membershipFee").value,
 
-            // Modification here for role pick list
-            //"userRoleId": document.getElementById("userRoleId").value,
             "userRoleId": ddList.options[ddList.selectedIndex].value,
-
             "userRoleType": "",
             "errorMsg": ""
         };
 
         console.log(userInputObj);
 
-        // JSON.stringify converts the javaScript object into JSON format 
-        // (the reverse operation of what gson does on the server side).
+        // JSON.stringify converts a javaScript object into JSON format 
+        // (like what GSON does on the server side).
         // 
         // Then, you have to encode the user's data (encodes special characters 
-        // like space to %20 so the server will accept it with no security error. 
+        // like space to %20 so the server will accept it with no security error). 
         return encodeURIComponent(JSON.stringify(userInputObj));
         //return escape(JSON.stringify(userInputObj));
     }
@@ -300,6 +362,34 @@ var users = {};
 
             writeErrorObjToUI(jsonObj);
         }
+    };
+
+    users.updateSave = function () {
+
+        console.log("users.updateSave was called");
+
+        // create a user object from the values that the user has typed into the page.
+        var myData = getUserDataFromUI();
+
+        ajax2({
+            url: "webAPIs/updateUserAPI.jsp?jsonData=" + myData,
+            successFn: processUpdate,
+            errorId: "recordError"
+        });
+
+        function processUpdate(jsonObj) {
+
+            // the server prints out a JSON string of an object that holds field level error 
+            // messages. The error message object (conveniently) has its fiels named exactly 
+            // the same as the input data was named. 
+
+            if (jsonObj.errorMsg.length === 0) { // success
+                jsonObj.errorMsg = "Record successfully updated !!!";
+            }
+
+            writeErrorObjToUI(jsonObj);
+        }
+
     };
 
 }());  // the end of the IIFE
