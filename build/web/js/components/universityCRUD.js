@@ -79,6 +79,13 @@ var universities = {};
             });
             searchBox.type = "text";
             //searchBox.setAttribute("type", "text");  // same thing...
+            
+             var deleteErrorMsg = Utils.make({
+                htmlTag: "div",
+                innerHTML: "",
+                parent: div
+            });
+            deleteErrorMsg.id = "deleteErrorMsgId";
 
             var tableDiv = Utils.make({
                 htmlTag: "div",
@@ -91,21 +98,23 @@ var universities = {};
             for (var i = 0; i < obj.universityList.length; i++) {
                 universityList[i] = {}; // add new empty object to array
 
+                universityList[i].universityId = obj.universityList[i].universityId;
                 universityList[i].name = obj.universityList[i].universityName;
                 universityList[i].state = obj.universityList[i].universityState;
                 universityList[i].image = obj.universityList[i].universityImage;
                 universityList[i].tuition = obj.universityList[i].tuition;
                 universityList[i].establishment = obj.universityList[i].establishment;
                 universityList[i].ranking = obj.universityList[i].universityRanking;
-                universityList[i].role = obj.universityList[i].webUserId + "&nbsp;" +
-                        obj.universityList[i].userEmail;
-                universityList[i].webUserId = obj.universityList[i].universityId;
+                universityList[i].webUserId = obj.universityList[i].webUserId;
+                universityList[i].userEmail = obj.universityList[i].userEmail;
 
                 // Remove this once you are done debugging...
                 universityList[i].errorMsg = obj.universityList[i].errorMsg;
                 
                 universityList[i].update = CRUD_icons.update + "' alt='update icon' onclick='universities.updateUI(" +
                         universityList[i].webUserId + ", `" + targetId + "` )' />";
+                universityList[i].delete = CRUD_icons.delete + "' alt='delete icon' onclick='universities.delete(" +
+                        universityList[i].universityId + ",this)'  />";
             }
 
             // add click sortable HTML table to the content area
@@ -126,10 +135,39 @@ var universities = {};
                 orderPropName: "universityName",
                 searchKeyElem: searchBox,
                 reverse: false,
-                imgWidth: "50px"
+                imgWidth: "30px"
             });
         } // end of function success
-    }; // end of function users.list
+    }; // end of function universities.list
+    
+    // invoke a web API passing in userId to say which record you want to delete. 
+    // but also remove the row (of the clicked upon icon) from the HTML table -- if Web API sucessful... 
+    universities.delete = function (universityId, icon) {
+        if (confirm("Do you really want to delete university " + universityId + "? ")) {
+            console.log("icon that was passed into JS function is printed on next line");
+            console.log(icon);
+
+            ajax2({
+                url: "webAPIs/deleteUniversityAPI.jsp?deleteId=" + universityId,
+                successFn: success,
+                errorId: "deleteErrorMsgId"
+            });
+
+            function success(obj) {
+                if (obj.errorMsg.length === 0) {
+                    obj.errorMsg = "University " + universityId + " was deleted!";
+
+                    // icon's parent is cell whose parent is row 
+                    var dataRow = icon.parentNode.parentNode;
+                    var rowIndex = dataRow.rowIndex - 1; // adjust for oolumn header row?
+                    var dataTable = dataRow.parentNode;
+                    dataTable.deleteRow(rowIndex);
+                }
+                document.getElementById("deleteErrorMsgId").innerHTML = obj.errorMsg;
+            }
+        }
+
+    };//universities.delete
 
      // pull out common code (between insert UI and update UI).
    // pull out common code (between insert UI and update UI).

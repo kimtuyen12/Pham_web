@@ -148,6 +148,27 @@ function blog(id) {
                 of updating data. There was so much going, plus the reusability with the insert function made understanding the update function diffficult. </p>
     
                 <p>To invoke to my database desgin from my database homwork, click <a href="docs/database.docx">database</a>.
+               </div>
+            <div class='stopFloat'></div>
+                
+        </div>
+    
+        <div class="row">
+            <div>
+                <p> [Blog Entry 9 - Delete HW] In this homework, I learned how to delete a record from my online database, which are 'delete web user' 
+                and 'delete university'. This web API called to a delete function in dBMods which takes in an ID - "which is the unique identifier for 
+                records in the database and deletes the material associated with that record from the database. Due to having completed the insert and 
+                update web APIs, this delete api was super easy. One being because we had a lot of practice with apis before this assignment therefore 
+                it was easy to use the same strategy to implement this one.</p>
+
+                <p> The parts that I found hard or confusing were... not really anything. I thought it all made sense and was easy to implement. 
+                Probably having to implement adding in seperate row for the delete icon, however, we were given sample code to look at and copy to 
+                implement, so it was not that hard to do or understand.</p>
+
+                <p> To run this code, click to list the data (under the search icon from the nav bar). then click the delete icon next to the record 
+                you want to delete.
+            </div>
+            <div class='stopFloat'></div>
                 
         </div>
     `;

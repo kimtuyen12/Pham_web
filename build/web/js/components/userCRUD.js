@@ -79,6 +79,13 @@ var users = {};
             });
             searchBox.type = "text";
             //searchBox.setAttribute("type", "text");  // same thing...
+            
+             var deleteErrorMsg = Utils.make({
+                htmlTag: "div",
+                innerHTML: "",
+                parent: div
+            });
+            deleteErrorMsg.id = "deleteErrorMsgId";
 
             var tableDiv = Utils.make({
                 htmlTag: "div",
@@ -113,6 +120,8 @@ var users = {};
                 // For this, we use the back tick and it works. 
                 userList[i].update = CRUD_icons.update + "' alt='update icon' onclick='users.updateUI(" +
                         userList[i].userId + ", `" + targetId + "` )' />";
+                 userList[i].delete = CRUD_icons.delete + "' alt='delete icon' onclick='users.delete(" +
+                        userList[i].userId + ",this)'  />";
             }
 
             // add click sortable HTML table to the content area
@@ -138,7 +147,35 @@ var users = {};
         } // end of function success
     }; // end of function users.list
 
+    // invoke a web API passing in userId to say which record you want to delete. 
+// but also remove the row (of the clicked upon icon) from the HTML table -- if Web API sucessful... 
+    users.delete = function (userId, icon) {
+        if (confirm("Do you really want to delete user " + userId + "? ")) {
+            console.log("icon that was passed into JS function is printed on next line");
+            console.log(icon);
 
+            ajax2({
+                url: "webAPIs/deleteUserAPI.jsp?deleteId=" + userId,
+                successFn: success,
+                errorId: "deleteErrorMsgId"
+            });
+
+            function success(obj) {
+                if (obj.errorMsg.length === 0) {
+                    obj.errorMsg = "Web User " + userId + " was deleted!";
+
+                    // icon's parent is cell whose parent is row 
+                    var dataRow = icon.parentNode.parentNode;
+                    var rowIndex = dataRow.rowIndex - 1; // adjust for oolumn header row?
+                    var dataTable = dataRow.parentNode;
+                    dataTable.deleteRow(rowIndex);
+                }
+                document.getElementById("deleteErrorMsgId").innerHTML = obj.errorMsg;
+            }
+        }
+
+    }; // end of users.delete
+    
     // pull out common code (between insert UI and update UI).
    // pull out common code (between insert UI and update UI).
     function createInsertUpdateArea(isUpdate, targetId) {
