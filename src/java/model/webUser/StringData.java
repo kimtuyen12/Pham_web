@@ -30,7 +30,6 @@ public class StringData {
     // default constructor leaves all data members with empty string (Nothing null).
     public StringData() {
     }
-
     // overloaded constructor sets all data members by extracting from resultSet.
     public StringData(ResultSet results) {
         try {

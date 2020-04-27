@@ -4,7 +4,7 @@ function blog(id) {
     var content = `  
          <div class="row">
             <div>
-                <p> [Blog Entry 1 - Web Home Page] It is easy to create the table and adding data into the table based on the instruction 
+                <p> [Blog Entry 1 - Database Experience] It is easy to create the table and adding data into the table based on the instruction 
                     of the SQL tutorial. However, adding the foreign key which pointed to the users who contributed for the information 
                     I had some troubles since I forgot to make the foreign key into the integer as described in the table. </p>
                 <p> It is easy to follow if you go to my database document at <a href="docs/database.docx">database</a>
@@ -14,7 +14,7 @@ function blog(id) {
 
         <div class="row">
             <div>
-                <p> [Blog Entry 2 - Routing and DB] It is easy to follow the routing with the first four methods which are two pages copy paste, 
+                <p> [Blog Entry 2 - Routing Part] It is easy to follow the routing with the first four methods which are two pages copy paste, 
                 internal links reuse without routing and simple routing. Besides that, routing framework and routing table are quite harder 
                 since it is required more complicated code in the script section. </p>
             </div>
@@ -23,12 +23,22 @@ function blog(id) {
 
         <div class="row">
             <div>
-                <p> [Blog Entry 3 - Display Data] In this homework, I found it is more difficult than two previous, we have to combine the filterable 
+                <p> [Blog Entry 3 - Display Data Homework] In this homework, I found it is more difficult than two previous, we have to combine the filterable 
                 and the sortable javascript to make it display in the same page. The rest of the homework was quite intuitive and made a good bit 
                 of sense. I found it particularly easy to export json from mySqlWorkbench, this saved me a ton of time in creating data. 
                 An important concept that I learned was the use of ajax and how it is done in pure javascript.</p>
                 <p> Two JSON files are <a href="json/allWebUsers.json">usersJSONfile</a> 
                     and <a href="json/universities.json">universityJSONfile</a> </p>
+            </div>
+            <div class='stopFloat'></div>
+        </div>
+    
+         <div class="row">
+            <div>
+                <p> [Blog Entry 4 - Slide Show Homework] In this homework, it was easy to incorporate the two slideshows next to each other with captions 
+                since I had already done this in lab. I did find it difficult to invoke the public method because of the way the html content is 
+                injected to the view. I finally was able to get it to work with providing the "change caption" button with an onclick event in the JS 
+                code rather than in the html tag.</p>
             </div>
             <div class='stopFloat'></div>
         </div>
@@ -58,7 +68,7 @@ function blog(id) {
     
          <div class="row">
             <div>
-                <p> [Blog Entry 5 - Web API HomeWork] In this homework, I learned about implementing web APIS and I learned how to install and 
+                <p> [Blog Entry 5 - Web API Homework] In this homework, I learned about implementing web APIS and I learned how to install and 
                 publish database access web apps.</p>
                 
                 <p> Things that were easy for me was putting in the libraries and the dbUtils and 
@@ -86,7 +96,7 @@ function blog(id) {
     
          <div class="row">
             <div>
-                <p> [Blog Entry 6 - Log On] In this homework, I learned about APIs and User Interfaces. This week we created 3 new web APIs, which are 
+                <p> [Blog Entry 6 - Log On Homework] In this homework, I learned about APIs and User Interfaces. This week we created 3 new web APIs, which are 
                 log on, log off, and get profile.</p>
                 
                  <p>Under the account tab in the navigation bar, it shows three links Log On, Log Off, and Get Profile. Each of these links call 
@@ -117,7 +127,7 @@ function blog(id) {
 
         <div class="row">
             <div>
-                <p> [Blog Entry 7 - Insert HW] In this homework, I extend the web application so that can insert a web_user record and insert a "university"
+                <p> [Blog Entry 7 - Insert Homework] In this homework, I extend the web application so that can insert a web_user record and insert a "university"
                 record. In each case, I will have a JSP Web API that handles the insert, providing field level, record level, and database error checking and messaging 
                 (in JSON format) back to the client. They are all of concepts I have learned from this homework.</p>
                 
@@ -134,7 +144,7 @@ function blog(id) {
     
         <div class="row">
             <div>
-                <p> [Blog Entry 8 - Update HW] In this homework, I have learned about updating data. We created a couple new web APIs that get server 
+                <p> [Blog Entry 8 - Update Homework] In this homework, I have learned about updating data. We created a couple new web APIs that get server 
                 side code from the database. With these new APIs we created JavaScript code that can edit the data found in the database and 
                 ultimately the data we use for our website. We were given sample code to work through to implement our own update user functions 
                 as well as our update other function. This was a cool assignment because I learned a lot more about server side code and APIs, 
@@ -155,7 +165,7 @@ function blog(id) {
     
         <div class="row">
             <div>
-                <p> [Blog Entry 9 - Delete HW] In this homework, I learned how to delete a record from my online database, which are 'delete web user' 
+                <p> [Blog Entry 9 - Delete Homework] In this homework, I learned how to delete a record from my online database, which are 'delete web user' 
                 and 'delete university'. This web API called to a delete function in dBMods which takes in an ID - "which is the unique identifier for 
                 records in the database and deletes the material associated with that record from the database. Due to having completed the insert and 
                 update web APIs, this delete api was super easy. One being because we had a lot of practice with apis before this assignment therefore 

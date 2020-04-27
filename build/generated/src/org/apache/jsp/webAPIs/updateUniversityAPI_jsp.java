@@ -3,12 +3,11 @@ package org.apache.jsp.webAPIs;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
-import dbUtils.*;
-import model.webUser.*;
-import view.WebUserView;
+import dbUtils.DbConn;
+import model.university.*;
 import com.google.gson.*;
 
-public final class logoffAPI_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class updateUniversityAPI_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -48,28 +47,42 @@ public final class logoffAPI_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write(" \n");
       out.write("\n");
       out.write("\n");
-      out.write(" \n");
-      out.write(" \n");
+      out.write("\n");
       out.write("\n");
       out.write("\n");
 
-    StringData webUser = new StringData();
 
-    if ((StringData) session.getAttribute("webuser") != null) {
-        webUser = (StringData) session.getAttribute("webuser");
-        session.invalidate();
-        webUser.errorMsg = "user logged off";
+    // This is the object we get from the GSON library.
+    // This object knows how to convert between: 
+    //    POJO (plain old java object) <-> JSON (JavaScript Object notation - a String)
+    Gson gson = new Gson();
+
+    DbConn dbc = new DbConn();
+    StringData errorMsgs = new StringData();
+
+    String jsonUpdateData = request.getParameter("jsonData");
+    if (jsonUpdateData == null) {
+        errorMsgs.errorMsg = "Cannot update -- need 'jsonData' as URL parameter";
+        System.out.println(errorMsgs.errorMsg);
     } else {
-        webUser.errorMsg = "User not logged in";
-
+        System.out.println("jsonUpdateData is " + jsonUpdateData);
+        errorMsgs.errorMsg = dbc.getErr();
+        if (errorMsgs.errorMsg.length() == 0) { // means db connection is ok
+            System.out.println("updateUniversityAPI.jsp - ready to update");
+            
+            // Must use gson to convert JSON (that the user provided as part of the url, the jsonUpdateData. 
+            // Convert from JSON (JS object notation) to POJO (plain old java object).
+            StringData updateData = gson.fromJson(jsonUpdateData, StringData.class);
+            
+            // this method takes the user's input data as input and outputs an error message object (with same field names).
+            errorMsgs = DbMods.update(updateData, dbc); // this is the form level message
+        }
     }
 
+    out.print(gson.toJson(errorMsgs).trim());
+    dbc.close();
 
-    Gson gson = new Gson();
-    out.print(gson.toJson(webUser).trim());
-
-
-
+      out.write('\n');
       out.write('\n');
     } catch (Throwable t) {
       if (!(t instanceof SkipPageException)){

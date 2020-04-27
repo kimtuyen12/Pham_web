@@ -112,7 +112,7 @@ var universities = {};
                 universityList[i].errorMsg = obj.universityList[i].errorMsg;
                 
                 universityList[i].update = CRUD_icons.update + "' alt='update icon' onclick='universities.updateUI(" +
-                        universityList[i].webUserId + ", `" + targetId + "` )' />";
+                        universityList[i].universityId + ", `" + targetId + "` )' />";
                 universityList[i].delete = CRUD_icons.delete + "' alt='delete icon' onclick='universities.delete(" +
                         universityList[i].universityId + ",this)'  />";
             }
@@ -314,7 +314,7 @@ var universities = {};
             list: roleUniversityList, // JS array that holds objects to populate the select list
             valueProp: "userEmail", // field name of objects in list that hold the values of the options
             keyProp: "webUserId", // field name of objects in list that hold the keys of the options
-            selectedKey: universityObj.universityId  // key that is to be pre-selected (optional)
+            selectedKey: universityObj.webUserId  // key that is to be pre-selected (optional)
         });
     }
     ;
@@ -356,6 +356,7 @@ var universities = {};
         console.log("here is JSON object (holds error messages.");
         console.log(jsonObj);
 
+        document.getElementById("universityIdError").innerHTML = jsonObj.universityId;
         document.getElementById("universityNameError").innerHTML = jsonObj.universityName;
         document.getElementById("universityStateError").innerHTML = jsonObj.universityState;
         document.getElementById("universityImageError").innerHTML = jsonObj.universityImage;

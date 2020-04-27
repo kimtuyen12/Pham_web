@@ -1,6 +1,4 @@
 var Utils = {};
-
-
 // Utils.make: using document.createElement(), create a DOM element with HTML tag name params.htmlTag (required property).
 // Optional property: params.innerHTML. Set the newly created element's innerHTML to this (if provided).
 // Optional property: params.parent. Append the newly created element to this parent DOM element (if provided).

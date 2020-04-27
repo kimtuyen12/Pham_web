@@ -6,23 +6,14 @@
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Link for dropdown Style in CSS --> 
+        <!-- Link for Style in CSS --> 
         <link href="style/dropdownStyle.css" rel="stylesheet" type="text/css" /> 
-
-        <!-- Link to an External Style Sheet --> 
-        <!-- Layout should be single column, good for Mobile. -->
         <link href="style/myStyle.css" rel="stylesheet" type="text/css" />  
-
-        <!-- Additional rules for Mobile responsive, followed by desktop rules grouped in Media Query -->
         <link href="style/multi_column.css" rel="stylesheet" type="text/css" />
         <link href="style/clickSort.css" rel="stylesheet" type="text/css" />
-        
-        <!-- Link to logon style -->
         <link href="style/logon.css" rel="stylesheet" type="text/css" /> 
-
         <link href="style/modalStyle.css" rel="stylesheet" type="text/css" /> 
         <link href="style/insertStyle.css" rel="stylesheet" type="text/css" />  
-        
         <link rel="shortcut icon" href="icons/favicon.ico">
         
         <!-- Styles in this internal style sheet will override styles in the external style sheet. -->
@@ -61,6 +52,7 @@
                     <div class="dropContent" id="searchDropDown">
                         <a href="#/users">Users</a> <br/>
                         <a href="#/universities">Universities</a> 
+                         <a href="#/slideshow">Slide-Show</a>
                     </div>
                 </div>  
                 <div class="dropdown">
@@ -89,20 +81,22 @@
         <script src="js/routeFw.js"></script>
         <script src="js/MakeSortableTable.js"></script>
         <script src="js/MakeTableBuilder.js"></script>
-        <script src="js/ajax2.js"></script>
         <script src="js/ajax.js"></script>
+        <script src="js/ajax2.js"></script>
+        <script src="js/ajax3.js"></script>
         <script src="js/Utils.js"></script>
         <script src="js/modalFw.js"></script>
-        <script src="js/CRUD_icons.js"></script>    
+        <script src="js/CRUD_icons.js"></script>
+        <script src="js/MakeSlideShow.js"></script>
 
         <script src="js/components/blog.js"></script>
         <script src="js/components/home.js"></script>
         <script src="js/components/userCRUD.js"></script>
         <script src="js/components/universityCRUD.js"></script>
-        
         <script src="js/components/logon.js"></script>
         <script src="js/components/getProfile.js"></script>
         <script src="js/components/logoff.js"></script>
+        <script src="js/components/slideshow.js"></script>
 
         <script>
             "use strict";
@@ -112,14 +106,13 @@
 
             myRoutes['#/'] = home;  // on page reload, function home will run
             myRoutes['#/home'] = home; // function home
-   //       myRoutes['#/universities'] = universities.display; // funtion universities
             myRoutes['#/universities'] = universities.list; // funtion universities list
             myRoutes['#/universityInsert'] = universities.insertUI; // funtion universities insert
             myRoutes['#/universityUpdate'] = function () {};
-  //        myRoutes['#/users'] = users.display; // function users
             myRoutes['#/users'] = users.list; // function users list
             myRoutes['#/userInsert'] = users.insertUI; // function users insert
             myRoutes['#/userUpdate'] = function () {};
+            myRoutes['#/slideshow'] = slideshow;
             myRoutes['#/blog'] = blog; // function blog
             myRoutes['#/logon']=logon.UI;
             myRoutes['#/Profile']= getProfile.UI;
